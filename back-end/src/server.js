@@ -1,9 +1,11 @@
-const express = require("express")
+const express = require("express");
 const app = express();
+const connection = require('./config/database')
+const pizzaController = require('./controllers/pizzaController');
+const pizzaRoutes = require('./routes/pizzaRoutes')
 
-app.get("/", (req,res) => {
-    res.send("App da pizaria funcionando")
-});
+app.use("/pizzas", pizzaRoutes);
+
 
 const PORT = 3000;
 

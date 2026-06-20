@@ -1,1 +1,1 @@
-SELECT * FROM bordas;
+SHOW TABLES
