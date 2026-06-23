@@ -1,3 +1,4 @@
+const { response } = require("express");
 const connection = require("../config/database");
 
 function listarPizzas(req, res) {
@@ -13,10 +14,10 @@ function listarPizzas(req, res) {
 }
 
 function buscarPizzaPorId(req, res) {
-    const { id } = req.params;
+    const { pizzaId } = req.params;
 
     connection.query(
-        'SELECT * FROM pizzas WHERE id = ?', [id],
+        'SELECT * FROM pizzas WHERE id = ?', [pizzaId],
         (error, results) => {
             if (error) {
                 res.status(500).json({
@@ -34,7 +35,108 @@ function buscarPizzaPorId(req, res) {
     )
 }
 
+function criarPizza(req, res) {
+    const { nome, descricao, preco } = req.body;
+
+    connection.query(
+        'INSERT INTO pizzas (nome, descricao, preco) VALUES (?, ?, ?)',
+        [nome, descricao, preco],
+        (error, results) => {
+            if (error) {
+                return res.status(500).json({
+                    mensagem: 'Erro ao criar pizza'
+                });
+            }
+
+            res.status(201).json({
+                mensagem: 'Pizza criada com sucesso!'
+            })
+        }
+    )
+}
+
+function editarPizza(req, res) {
+    const { pizzaId } = req.params;
+    const { nome, descricao, preco } = req.body;
+
+    connection.query(
+        'UPDATE pizzas SET nome = ?, descricao = ?, preco = ? WHERE id = ?',
+        [nome, descricao, preco, pizzaId],
+        (error, results) => {
+            if (error) {
+                return res.status(500).json({
+                    mensagem: 'Erro ao editar a pizza'
+                })
+            }
+            if (results.affectedRows === 0) {
+                return res.status(404).json({
+                    mensagem: 'Pizza não encontrada'
+                })
+            }
+
+            res.status(200).json({
+                mensagem: 'Pizza atualizada com sucesso!'
+            })
+        }
+    )
+}
+
+function alterarStatusPizza(req, res) {
+    const { pizzaId } = req.params;
+    const { ativa } = req.body;
+
+    if (ativa === undefined) {
+        return res.status(400).json({
+            mensagem: 'O campo é obrigatório'
+        })
+    }
+
+    if (typeof ativa !== 'boolean') {
+        return res.status(400).json({
+            mensagem: 'O campo ativa deve ser true ou false'
+        })
+    }
+
+    connection.query(
+        'UPDATE pizzas SET ativa = ? WHERE id = ?',
+        [ativa, pizzaId],
+        (error, results) => {
+            if (error) {
+                return res.status(500).json({
+                    mensagem: 'Erro ao desativar pizza'
+                })
+            }
+
+            if (results.affectedRows === 0) {
+                return res.status(404).json({
+                    mensagem: 'Pizza não encontrada'
+                })
+            }
+            
+            /*if (ativa) {
+                return res.json({
+                    mensagem: 'Pizza Ativada com sucesso!'
+                })
+            }
+
+            if (!ativa) {
+                return res.json({
+                    mensagem: 'Pizza Desativada com sucesso!'
+                })
+            }*/
+
+            res.status(200).json({
+                mensagem: `${ativa? 'Pizza Ativada com sucesso' : 'Pizza desativada com sucesso'}`
+            })
+
+        }
+    )
+}
+
 module.exports = {
     listarPizzas,
-    buscarPizzaPorId
+    buscarPizzaPorId,
+    criarPizza,
+    editarPizza,
+    alterarStatusPizza
 };
