@@ -4,8 +4,11 @@ const connection = require("../config/database");
 function listarPizzas(req, res) {
     connection.query('SELECT * FROM pizzas', (error, results) => {
         if (error) {
+            console.log(error);
+
             return res.status(500).json({
-                mensagem: 'Erro ao buscar pizzas'
+                mensagem: 'Erro ao buscar pizzas',
+                erro: error.message
             });
         }
 
@@ -20,8 +23,11 @@ function buscarPizzaPorId(req, res) {
         'SELECT * FROM pizzas WHERE id = ?', [pizzaId],
         (error, results) => {
             if (error) {
+                console.log(error);
+
                 res.status(500).json({
-                    mensagem: 'Erro ao buscar pizza'
+                    mensagem: 'Erro ao buscar pizza',
+                    erro: error.message
                 })
             }
             if (results.length === 0) {
@@ -43,8 +49,11 @@ function criarPizza(req, res) {
         [nome, descricao, preco],
         (error, results) => {
             if (error) {
+                console.log(error);
+
                 return res.status(500).json({
-                    mensagem: 'Erro ao criar pizza'
+                    mensagem: 'Erro ao criar pizza',
+                    erro: error.message
                 });
             }
 
@@ -64,8 +73,11 @@ function editarPizza(req, res) {
         [nome, descricao, preco, pizzaId],
         (error, results) => {
             if (error) {
+                console.log(error);
+
                 return res.status(500).json({
-                    mensagem: 'Erro ao editar a pizza'
+                    mensagem: 'Erro ao editar a pizza',
+                    erro: error.message
                 })
             }
             if (results.affectedRows === 0) {
@@ -102,8 +114,11 @@ function alterarStatusPizza(req, res) {
         [ativa, pizzaId],
         (error, results) => {
             if (error) {
+                console.log(error);
+
                 return res.status(500).json({
-                    mensagem: 'Erro ao desativar pizza'
+                    mensagem: 'Erro ao desativar pizza',
+                    erro: error.message
                 })
             }
 
