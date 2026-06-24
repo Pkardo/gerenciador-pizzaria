@@ -112,21 +112,9 @@ function alterarStatusPizza(req, res) {
                     mensagem: 'Pizza não encontrada'
                 })
             }
-            
-            /*if (ativa) {
-                return res.json({
-                    mensagem: 'Pizza Ativada com sucesso!'
-                })
-            }
-
-            if (!ativa) {
-                return res.json({
-                    mensagem: 'Pizza Desativada com sucesso!'
-                })
-            }*/
 
             res.status(200).json({
-                mensagem: `${ativa? 'Pizza Ativada com sucesso' : 'Pizza desativada com sucesso'}`
+                mensagem: `${ativa ? 'Pizza Ativada com sucesso' : 'Pizza desativada com sucesso'}`
             })
 
         }
