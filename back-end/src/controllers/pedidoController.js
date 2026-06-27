@@ -37,7 +37,37 @@ function buscarPedidoPorId(req, res) {
                 })
             }
 
-            res.json(results[0])
+            const pedido = results[0]
+
+            connection.query(
+                `SELECT
+                itens_pedido.id,
+                itens_pedido.tamanho,
+                itens_pedido.quantidade,
+                itens_pedido.valor_unitario,
+                itens_pedido.observacoes,
+                pizzas.nome AS pizza,
+                bordas.nome AS borda
+                FROM itens_pedido
+                JOIN pizzas ON itens_pedido.pizza_id = pizzas.id
+                LEFT JOIN bordas ON itens_pedido.borda_id = bordas.id
+                WHERE itens_pedido.pedido_id = ?`, [pedidoId],
+                (errorItens, itens) => {
+                    if (errorItens) {
+                        console.log(errorItens)
+
+                        return res.status(500).json({
+                            mensagem: 'Erro ao criar o pedido',
+                            erro: errorItens
+                        })
+                    }
+
+                    res.json({
+                        ...pedido,
+                        itens_pedido: itens
+                    })
+                }
+            )
         }
     )
 }
@@ -91,10 +121,47 @@ function criarPedido(req, res) {
 
             const pedidoId = results.insertId
 
-            res.status(201).json({
-                mensagem: 'Pedido criado com sucesso!',
-                pedidoId: results.insertId
-            })
+            if (!Array.isArray(itens_pedido) || itens_pedido === 0) {
+                return res.status(400).json({
+                    mensagem: "O pedido precisa ter pelo menos um item"
+                });
+            }
+
+            const valoresItens = itens_pedido.map((item) => [
+                pedidoId,
+                item.pizza_id,
+                item.borda_id,
+                item.tamanho,
+                item.quantidade,
+                item.valor_unitario,
+                item.observacoes
+            ]);
+
+            connection.query(
+                `INSERT INTO itens_pedido (
+                pedido_id, 
+                pizza_id, 
+                borda_id, 
+                tamanho, 
+                quantidade, 
+                valor_unitario, 
+                observacoes) VALUES ?`, [valoresItens],
+                (errorItens) => {
+                    if (errorItens) {
+                        console.log(errorItens);
+
+                        return res.status(500).json({
+                            mensagem: 'Erro ao salvar os itens do pedido',
+                            erro: errorItens.message
+                        })
+                    }
+
+                    res.status(201).json({
+                        mensagem: 'Pedido criado com sucesso!',
+                        pedidoId: results.insertId
+                    })
+                }
+            )
         }
     )
 }
