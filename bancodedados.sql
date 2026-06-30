@@ -1,1 +1,1 @@
-SHOW TABLES
+DELETE FROM pedidos
