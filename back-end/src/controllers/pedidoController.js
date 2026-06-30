@@ -166,8 +166,38 @@ function criarPedido(req, res) {
     )
 }
 
+function alterarStatusPedido(req, res) {
+    const { pedidoId } = req.params;
+    const { status_pedido } = req.body;
+
+    connection.query(
+        'UPDATE pedidos SET status_pedido = ? WHERE id = ?', [status_pedido, pedidoId],
+        (error, results) => {
+            if (error) {
+                console.log(error)
+
+                return res.status(500).json({
+                    mensagem: 'Erro ao alterar status.',
+                    erro: error.message
+                })
+            }
+
+            if (results.affectedRows === 0) {
+                return res.status(404).json({
+                    mensagem: 'Pedido não encontrado.'
+                })
+            }
+
+            res.status(200).json({
+                mensagem: "Status alterado com sucesso!"
+            })
+        }
+    )
+}
+
 module.exports = {
     listarPedidos,
     buscarPedidoPorId,
-    criarPedido
+    criarPedido,
+    alterarStatusPedido
 };
