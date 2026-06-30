@@ -5,5 +5,6 @@ const router = express.Router();
 router.get("/", pedidoController.listarPedidos);
 router.get("/:pedidoId", pedidoController.buscarPedidoPorId);
 router.post("/", pedidoController.criarPedido)
+router.patch("/:pedidoId/status", pedidoController.alterarStatusPedido)
 
 module.exports = router;
