@@ -1,1 +1,1 @@
-DELETE FROM pedidos
+TRUNCATE TABLE pedidos;

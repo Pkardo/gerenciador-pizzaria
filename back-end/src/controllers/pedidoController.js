@@ -91,54 +91,68 @@ function criarPedido(req, res) {
         itens_pedido
     } = req.body;
 
-    connection.query(
-        'INSERT INTO pedidos (nome_cliente, email_cliente, telefone_cliente, logradouro, numero, bairro, cidade, cep, ponto_referencia, forma_pagamento, troco_para, status_pagamento, observacoes, valor_total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+    connection.beginTransaction((error) => {
+        if (error) {
+            console.log(error)
 
-        [nome_cliente,
-            email_cliente,
-            telefone_cliente,
-            logradouro,
-            numero,
-            bairro,
-            cidade,
-            cep,
-            ponto_referencia,
-            forma_pagamento,
-            troco_para,
-            status_pagamento,
-            observacoes,
-            valor_total],
-
-        (error, results) => {
-            if (error) {
-                console.log(error);
-
-                return res.status(500).json({
-                    mensagem: 'Erro ao criar pedido',
+            return connection.rollback(() => {
+                res.status(500).json({
+                    mensagem: "Erro ao criar transação",
                     erro: error.message
-                })
-            }
-
-            const pedidoId = results.insertId
-
-            if (!Array.isArray(itens_pedido) || itens_pedido === 0) {
-                return res.status(400).json({
-                    mensagem: "O pedido precisa ter pelo menos um item"
                 });
-            }
+            });
+        }
 
-            const valoresItens = itens_pedido.map((item) => [
-                pedidoId,
-                item.pizza_id,
-                item.borda_id,
-                item.tamanho,
-                item.quantidade,
-                item.valor_unitario,
-                item.observacoes
-            ]);
+        connection.query(
+            'INSERT INTO pedidos (nome_cliente, email_cliente, telefone_cliente, logradouro, numero, bairro, cidade, cep, ponto_referencia, forma_pagamento, troco_para, status_pagamento, observacoes, valor_total) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
 
-            connection.query(
-                `INSERT INTO itens_pedido (
+            [nome_cliente,
+                email_cliente,
+                telefone_cliente,
+                logradouro,
+                numero,
+                bairro,
+                cidade,
+                cep,
+                ponto_referencia,
+                forma_pagamento,
+                troco_para,
+                status_pagamento,
+                observacoes,
+                valor_total],
+
+            (error, results) => {
+                if (error) {
+                    console.log(error);
+
+                    return connection.rollback(() => {
+                        res.status(500).json({
+                            mensagem: 'Erro ao criar pedido',
+                            erro: error.message
+                        });
+                    });
+                }
+
+                const pedidoId = results.insertId
+
+                if (!Array.isArray(itens_pedido) || itens_pedido.length === 0) {
+                    return res.status(400).json({
+                        mensagem: "O pedido precisa ter pelo menos um item"
+                    });
+                }
+
+                const valoresItens = itens_pedido.map((item) => [
+                    pedidoId,
+                    item.pizza_id,
+                    item.borda_id,
+                    item.tamanho,
+                    item.quantidade,
+                    item.valor_unitario,
+                    item.observacoes
+                ]);
+
+                connection.query(
+                    `INSERT INTO itens_pedido (
                 pedido_id, 
                 pizza_id, 
                 borda_id, 
@@ -146,23 +160,37 @@ function criarPedido(req, res) {
                 quantidade, 
                 valor_unitario, 
                 observacoes) VALUES ?`, [valoresItens],
-                (errorItens) => {
-                    if (errorItens) {
-                        console.log(errorItens);
+                    (errorItens, results) => {
+                        if (errorItens) {
+                            console.log(errorItens);
 
-                        return res.status(500).json({
-                            mensagem: 'Erro ao salvar os itens do pedido',
-                            erro: errorItens.message
+                            return connection.rollback(() => {
+                                res.status(500).json({
+                                    mensagem: 'Erro ao salvar os itens do pedido',
+                                    erro: errorItens.message 
+                                });
+                            });
+                        }
+                        connection.commit((error) => {
+                            if (error) {
+                                return connection.rollback(() => {
+                                    res.status(500).json({
+                                        mensagem: "Erro ao finalizar transação",
+                                        erro: error.message
+                                    });
+                                });
+                            }
+
+                            res.status(201).json({
+                                mensagem: 'Pedido criado com sucesso!',
+                                pedidoId: results.insertId
+                            })
                         })
                     }
-
-                    res.status(201).json({
-                        mensagem: 'Pedido criado com sucesso!',
-                        pedidoId: results.insertId
-                    })
-                }
-            )
-        }
+                )
+            }
+        )
+    }
     )
 }
 
