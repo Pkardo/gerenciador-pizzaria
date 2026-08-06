@@ -6,5 +6,6 @@ router.get("/", pedidoController.listarPedidos);
 router.get("/:pedidoId", pedidoController.buscarPedidoPorId);
 router.post("/", pedidoController.criarPedido);
 router.patch("/:pedidoId/status", pedidoController.alterarStatusPedido)
+router.put("/:pedidoId", pedidoController.editarPedido);
 
 module.exports = router;

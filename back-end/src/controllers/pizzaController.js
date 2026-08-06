@@ -59,7 +59,7 @@ function criarPizza(req, res) {
 
             res.status(201).json({
                 mensagem: 'Pizza criada com sucesso!'
-            })
+            });
         }
     )
 }
@@ -97,15 +97,9 @@ function alterarStatusPizza(req, res) {
     const { pizzaId } = req.params;
     const { ativa } = req.body;
 
-    if (ativa === undefined) {
+    if (ativa !== undefined && typeof ativa !== 'boolean') {
         return res.status(400).json({
-            mensagem: 'O campo é obrigatório'
-        })
-    }
-
-    if (typeof ativa !== 'boolean') {
-        return res.status(400).json({
-            mensagem: 'O campo ativa deve ser true ou false'
+            mesangem: "O campo ativa deve ser true ou false"
         })
     }
 

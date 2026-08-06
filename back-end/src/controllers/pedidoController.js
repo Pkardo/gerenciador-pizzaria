@@ -1,5 +1,5 @@
-const express = require("express")
-const connection = require("../config/database")
+const express = require("express");
+const connection = require("../config/database");
 
 function listarPedidos(req, res) {
     connection.query(
@@ -8,10 +8,10 @@ function listarPedidos(req, res) {
                 return res.status(500).json({
                     mensagem: 'Erro ao buscar pedidos',
                     erro: error.message
-                })
+                });
             }
 
-            res.json(results)
+            res.json(results);
         }
     )
 }
@@ -167,7 +167,7 @@ function criarPedido(req, res) {
                             return connection.rollback(() => {
                                 res.status(500).json({
                                     mensagem: 'Erro ao salvar os itens do pedido',
-                                    erro: errorItens.message 
+                                    erro: errorItens.message
                                 });
                             });
                         }
@@ -223,9 +223,153 @@ function alterarStatusPedido(req, res) {
     )
 }
 
+function editarPedido(req, res) {
+    const { pedidoId } = req.params;
+
+    const {
+        nome_cliente,
+        email_cliente,
+        telefone_cliente,
+        logradouro,
+        numero,
+        bairro,
+        cidade,
+        cep,
+        ponto_referencia,
+        forma_pagamento,
+        troco_para,
+        status_pagamento,
+        observacoes,
+        valor_total,
+        itens_pedido
+    } = req.body;
+
+    connection.beginTransaction((error) => {
+        if (error) {
+            console.log(error)
+
+            return connection.rollback(() => {
+                res.status(500).json({
+                    mensagem: "Erro ao iniciar transação",
+                    erro: error.message
+                });
+            });
+        }
+
+        connection.query(
+            "UPDATE pedidos SET nome_cliente = ?, email_cliente = ?, telefone_cliente = ?, logradouro = ?, numero = ?, bairro = ?, cidade = ?, cep = ? , ponto_referencia = ?, forma_pagamento = ?, troco_para = ?, status_pagamento = ?, observacoes = ?, valor_total = ? WHERE id = ?",
+
+            [nome_cliente,
+                email_cliente,
+                telefone_cliente,
+                logradouro,
+                numero,
+                bairro,
+                cidade,
+                cep,
+                ponto_referencia,
+                forma_pagamento,
+                troco_para,
+                status_pagamento,
+                observacoes,
+                valor_total,
+                pedidoId
+            ], (error, results) => {
+
+                if (error) {
+                    console.log(error)
+
+                    return connection.rollback(() => {
+                        res.status(500).json({
+                            mensagem: "Erro ao editar pedido",
+                            erro: error.message
+                        })
+                    })
+                }
+
+                if (results.affectedRows === 0) {
+                    return connection.rollback(() => {
+                        res.status(404).json({
+                            mensagem: "Pedido não encontrado"
+                        });
+                    });
+                }
+
+                connection.query(
+                    "DELETE FROM itens_pedido WHERE pedido_id = ?", [pedidoId],
+                    (error) => {
+                        if (error) {
+                            console.log(error)
+                            return connection.rollback(() => {
+                                res.status(500).json({
+                                    mensagem: "Erro ao deletar pedido",
+                                    erro: error.message
+                                });
+                            });
+                        }
+
+                        if (!Array.isArray(itens_pedido) || itens_pedido.length === 0) {
+                            return connection.rollback(() => {
+                                res.status(400).json({
+                                    mensagem: "O pedido precisa ter pelo menos um item"
+                                });
+                            });
+                        }
+
+                        const valoresItens = itens_pedido.map((item) => [
+                            pedidoId,
+                            item.pizza_id,
+                            item.borda_id,
+                            item.tamanho,
+                            item.quantidade,
+                            item.valor_unitario,
+                            item.observacoes
+                        ]);
+
+                        connection.query(
+                            `INSERT INTO itens_pedido (pedido_id, pizza_id, borda_id, tamanho, quantidade, valor_unitario, observacoes)
+                    VALUES ?`, [valoresItens],
+                            (errorItens) => {
+
+                                if (errorItens) {
+                                    console.log(errorItens)
+
+                                    return connection.rollback(() => {
+                                        res.status(500).json({
+                                            mensagem: "Erro ao salvar os itens do pedido",
+                                            erro: errorItens.message
+                                        });
+                                    });
+                                }
+
+                                connection.commit((error) => {
+
+                                    if (error) {
+                                        console.log(error)
+
+                                        return connection.rollback(() => {
+                                            res.status(500).json({
+                                                mensagem: "Erro ao finalizar transação",
+                                                erro: error.message
+                                            });
+                                        });
+                                    }
+
+                                    res.status(200).json({
+                                        mensagem: "Pedido editado com Sucesso!"
+                                    });
+                                });
+                            });
+                    }
+                )
+            });
+    })
+}
+
 module.exports = {
     listarPedidos,
     buscarPedidoPorId,
     criarPedido,
-    alterarStatusPedido
+    alterarStatusPedido,
+    editarPedido
 };
