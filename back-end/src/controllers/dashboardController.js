@@ -1,28 +1,29 @@
 const connection = require('../config/database');
 
 function dashboard(req, res) {
+    const { inicio, fim } = req.query;
     connection.query(`
         SELECT COUNT(*) AS totalPedidos,
-        SUM(valor_total) AS faturamentoTotal,
-        SUM(CASE
+        COALESCE(SUM(valor_total), 0) AS faturamentoTotal,
+        COALESCE(SUM(CASE
                 WHEN status_pedido = 'em_preparo'
                 THEN 1
                 ELSE 0
-            END) AS pedidosEmPreparo,
+            END), 0) AS pedidosEmPreparo,
 
-            SUM(CASE
+            COALESCE(SUM(CASE
                 WHEN status_pedido = 'entregue'
                 THEN 1
                 ELSE 0
-            END) AS pedidosEntregues,
+            END), 0) AS pedidosEntregues,
 
-            SUM(CASE
+            COALESCE (SUM(CASE
                 WHEN status_pedido = 'cancelado'
                 THEN 1
                 ELSE 0
-            END) AS pedidosCancelados
+            END), 0) AS pedidosCancelados
 
-        FROM pedidos;`,
+        FROM pedidos WHERE criado_em >= ? AND criado_em  < DATE_ADD(?, interval 1 DAY)`, [inicio, fim],
 
         (error, results) => {
             if (error) {
@@ -33,12 +34,6 @@ function dashboard(req, res) {
                     erro: error.message,
                     code: error.code
                 });
-            }
-
-            if (results.length === 0) {
-                return res.status(404).json({
-                    mensagem: "Total de Pedidos não encontrado!"
-                })
             }
 
             res.json({
