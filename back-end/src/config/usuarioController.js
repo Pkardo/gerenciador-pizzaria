@@ -13,7 +13,7 @@ function criarUsuario(req, res) {
     const senhaHash = bcrypt.hashSync(senha, 10);
 
     connection.query('INSERT INTO usuarios (login, senha, tipo) VALUES (?, ?, ?)', [login, senhaHash, 'funcionario'],
-        (error, results) => {
+        (error) => {
             if (error) {
                 console.log(error);
 
