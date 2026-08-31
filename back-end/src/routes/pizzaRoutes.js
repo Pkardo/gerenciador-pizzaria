@@ -1,6 +1,6 @@
 const express = require('express');
-const pizzaController = require('../controllers/pizzaController');
 const router = express.Router();
+const pizzaController = require('../controllers/pizzaController');
 
 router.get("/", pizzaController.listarPizzas);
 router.get("/:pizzaId", pizzaController.buscarPizzaPorId);
