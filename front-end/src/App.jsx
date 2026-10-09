@@ -8,7 +8,7 @@ function TelaDeTeste() {
   const { usuario, entrar, sair } = useAuth();
 
   useEffect(() => {
-    login("pauloc", "123456").then((res) => {
+    login(import.meta.env.SECRET_LOGIN, import.meta.env.SECRET_SENHA).then((res) => {
       entrar(res.data.token);
     })
   }, []);
