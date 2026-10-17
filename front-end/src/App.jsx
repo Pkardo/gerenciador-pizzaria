@@ -1,29 +1,21 @@
-import { useEffect, useState } from 'react'
-import { AuthProvider, useAuth } from './context/authContext';
-import { login } from "./api/authApi";
+import { useState, useEffect } from 'react'
+import { fazerLogin } from './features/auth/services/authService';
+import { salvarToken } from './shared/services/tokenStorage';
 import './App.css'
 
-
-function TelaDeTeste() {
-  const { usuario, entrar, sair } = useAuth();
-
+function App() {
   useEffect(() => {
-    login(import.meta.env.SECRET_LOGIN, import.meta.env.SECRET_SENHA).then((res) => {
-      entrar(res.data.token);
-    })
-  }, []);
+    fazerLogin("pauloc", "123456")
+    .then((dados) => console.log(dados))
+    .catch((erro) => console.log(erro.response.data));
+  }, [])
 
   return (
-    <div><p>Usuario atual: {usuario ? usuario.login : "ninguém logado"}</p></div>
+    <>
+    <h1>Testando</h1>
+    </>
   )
 }
 
-function App() {
-  return (
-    <AuthProvider>
-      <TelaDeTeste />
-    </AuthProvider>
-  );
-}
-
-export default App;
+export default App
+  

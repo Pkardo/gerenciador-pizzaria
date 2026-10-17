@@ -1,0 +1,39 @@
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"D","location":"api.js:init","message":"axios importado e instancia criada","data":{"temBaseURL":false},"timestamp":1792278593841}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"B","location":"main.jsx:init","message":"react-router-dom importou","data":{"temBrowserRouter":true},"timestamp":1792278593842}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278593855}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278593855}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278593861}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278593862}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278593865}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278593866}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"D","location":"api.js:init","message":"axios importado e instancia criada","data":{"temBaseURL":false},"timestamp":1792278595449}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"B","location":"main.jsx:init","message":"react-router-dom importou","data":{"temBrowserRouter":true},"timestamp":1792278595450}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278595478}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278595478}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278595482}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278595482}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278595486}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278595487}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"D","location":"api.js:init","message":"axios importado e instancia criada","data":{"temBaseURL":false},"timestamp":1792278602949}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"B","location":"main.jsx:init","message":"react-router-dom importou","data":{"temBrowserRouter":true},"timestamp":1792278602950}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278602962}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278602962}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278602967}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278602967}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278602979}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278602980}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"D","location":"api.js:init","message":"axios importado e instancia criada","data":{"temBaseURL":false},"timestamp":1792278603596}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"B","location":"main.jsx:init","message":"react-router-dom importou","data":{"temBrowserRouter":true},"timestamp":1792278603597}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278603608}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278603608}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278603612}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278603612}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278603618}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278603619}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"D","location":"api.js:init","message":"axios importado e instancia criada","data":{"temBaseURL":false},"timestamp":1792278636125}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278636134}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278636134}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"A","location":"App.jsx:mount","message":"App montou apos parse","data":{"parsed":true},"timestamp":1792278636135}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"authService.js:fazerLogin","message":"authService carregou e fazerLogin foi chamado","data":{"temLogin":true},"timestamp":1792278636135}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278636140}
+{"sessionId":"6bcc84","runId":"post-fix","hypothesisId":"C","location":"App.jsx:login-catch","message":"fazerLogin rejeitou","data":{"status":404,"temMensagem":false},"timestamp":1792278636141}
